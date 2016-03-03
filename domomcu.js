@@ -10,8 +10,15 @@ if (Meteor.isClient) {
             result.push(obj[k]);
         return result;
     });
-
-    Template.body.helpers({
+    
+    Template.container.helpers({  
+      pageTemplate: function() {
+        var activePage = Session.get('activePage');
+        return activePage?activePage:'pageHome';
+      }
+    });    
+        
+    Template.pageDevice.helpers({
         devices: function () {
             return Devices.find({});
         }
@@ -26,6 +33,11 @@ if (Meteor.isClient) {
     });
 
     Template.body.events({
+        'click .page-trigger': function (event, template) {
+            event.preventDefault();
+            var name = template.$(event.target).data('template');
+            Session.set('activePage', name);
+        },        
         "click #new-devices": function (event) {
             event.preventDefault();
             Devices.insert({
@@ -34,7 +46,17 @@ if (Meteor.isClient) {
                 pins: [
                     {key: "0", name: "", type: "disable"},
                     {key: "1", name: "", type: "disable"},
-                    {key: "2", name: "", type: "disable"}
+                    {key: "2", name: "", type: "disable"},
+                    {key: "3", name: "", type: "disable"},
+                    {key: "4", name: "", type: "disable"},
+                    {key: "5", name: "", type: "disable"},
+                    {key: "6", name: "", type: "disable"},
+                    {key: "7", name: "", type: "disable"},
+                    {key: "8", name: "", type: "disable"},
+                    {key: "9", name: "", type: "disable"},
+                    {key: "10", name: "", type: "disable"},
+                    {key: "11", name: "", type: "disable"},
+                    {key: "A", name: "", type: "disable"}
                 ]
             });
         },

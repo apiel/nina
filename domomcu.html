@@ -15,22 +15,37 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Link</a></li>
+                <li class="active"><a href="#" data-template="pageHome" class="page-trigger">Home</a></li>
+                <li class="active"><a href="#" data-template="pageDevice" class="page-trigger">Device</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {{> loginButtons}}
             </ul>
         </div>
     </div>
-    <div class="container">
-        <div id="devices">
-            {{#each devices}}
-            {{> device}}
-            {{/each}}
-        </div>
-        <button class="btn" id="new-devices">Add a new devices</button>
-    </div>
+    {{> container}}
 </body>
+
+
+<template name="container">  
+    <div class="container">
+        {{> Template.dynamic template=pageTemplate}}
+    </div>
+</template>
+
+<template name="pageHome">  
+    <h1>Status</h1>
+    <p>...</p>    
+</template>
+
+<template name="pageDevice">  
+    <div id="devices">
+        {{#each devices}}
+        {{> device}}
+        {{/each}}
+    </div>
+    <button class="btn" id="new-devices">Add a new devices</button>  
+</template>  
 
 <template name="device">
     <div class="panel panel-default">
@@ -65,17 +80,20 @@
             <input type="text" name="pins[{{key}}][name]" placeholder="Name" class="form-control" value="{{name}}" />
         </div>                    
         <div class="col-sm-2">
-            <select class="form-control" name="pins[{{key}}][type]">
-                <option value="disable" {{eq type "disable" "selected"}}>Disable</option>
-                <optgroup label="Output">
-                    <option value="onoff" {{eq type "onoff" "selected"}}>Switch on/off</option>
-                    <option value="rf" {{eq type "rf" "selected"}}>RF transmitter</option>
-                </optgroup>
-                <optgroup label="Sensor">
-                    <option value="pir" {{eq type "pir" "selected"}}>PIR</option>
-                    <option value="temperature" {{eq type "temperature" "selected"}}>Temperature</option>
-                </optgroup>
-            </select>                        
+            <div class="input-group">
+                <select class="form-control" name="pins[{{key}}][type]">
+                    <option value="disable" {{eq type "disable" "selected"}}>Disable</option>
+                    <optgroup label="Output">
+                        <option value="onoff" {{eq type "onoff" "selected"}}>Switch on/off</option>
+                        <option value="rf" {{eq type "rf" "selected"}} setting="#">RF transmitter</option>
+                    </optgroup>
+                    <optgroup label="Sensor">
+                        <option value="pir" {{eq type "pir" "selected"}}>PIR</option>
+                        <option value="temperature" {{eq type "temperature" "selected"}}>Temperature</option>
+                    </optgroup>
+                </select>
+                <a class="btn btn-xs input-group-addon"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+            </div>                        
         </div>
     </div>    
 </template>
